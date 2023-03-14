@@ -33,7 +33,7 @@ public class ConverterController {
     }
 
     @GetMapping("/getDataById/{id}")
-    public Optional<Converter> getData(@PathVariable("id") Long id) throws DataNotFoundException {
+    public Optional<Converter> getData(@PathVariable("id") Integer id) throws DataNotFoundException {
         return converterService.getDataById(id);
     }
 
@@ -52,12 +52,12 @@ public class ConverterController {
         return "Data is insert successfully....";
     }
     @DeleteMapping("/deleteDataById/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Integer id){
         this.converterService.deleteData(id);
         return "Conversion data is is deleted successfully with id "+id;
     }
     @PutMapping("/updateRateById/{id}")
-    public String update(@PathVariable Long id,@RequestBody @Valid Converter newConverter){
+    public String update(@PathVariable Integer id,@RequestBody @Valid Converter newConverter){
         log.info("Modify rate by particular id:"+id);
         newConverter.setId(id);
         this.converterService.saveOrUpdateData(newConverter);

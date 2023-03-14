@@ -9,13 +9,13 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 @Slf4j
-@Component
+@Service
 public class ConverterService {
     @Autowired
     ConverterRepository converterRepository;
@@ -27,7 +27,7 @@ public class ConverterService {
         return (List<Converter>) converterRepository.findAll();
     }
 
-    public Optional<Converter> getDataById(Long id) throws DataNotFoundException {
+    public Optional<Converter> getDataById(Integer id) throws DataNotFoundException {
         Optional<Converter> converter= converterRepository.findById(id);
         if(converter.isPresent()){
             log.info("Fetch specific data by id:"+id);
@@ -61,7 +61,7 @@ public class ConverterService {
         }
     }
 
-    public void deleteData(Long id) {
+    public void deleteData(Integer id) {
         Optional<Converter> converter = converterRepository.findById(id);
         if (converter.isPresent()) {
             log.info("Delete tuple with id:"+id);
@@ -82,6 +82,8 @@ public class ConverterService {
                 Optional<Converter> converterOptional = converterRepository.findById(newConverter.getId());
                 if (converterOptional.isPresent()) {
                     converter = converterOptional.get();
+                }else{
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             } else {
                 converter = new Converter();
@@ -91,13 +93,13 @@ public class ConverterService {
             converter.setRate(newConverter.getRate());
             converter.setLastModifiedDate(new Date());
             log.info("Saving data");
-            Converter saveData = converterRepository.save(newConverter);
+            Converter saveData = converterRepository.save(converter);
             emailService.sendEmail("ritik.gupta@cstinfotech.co.in",
                     "Data Insert/update in Currency Converter",
                     "New data insert/update successfully with currency " + saveData.getCurrencyChange());
             return new ResponseEntity<>(saveData, HttpStatus.OK);
         }else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 }

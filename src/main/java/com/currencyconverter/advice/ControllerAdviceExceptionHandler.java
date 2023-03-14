@@ -24,7 +24,7 @@ public class ControllerAdviceExceptionHandler {
         });
         return error;
     }
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(DataNotFoundException.class)
     public Map<String,String> handleDataNotFoundException(DataNotFoundException ex){
         Map<String,String> error=new HashMap<>();

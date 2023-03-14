@@ -15,7 +15,7 @@ public class Converter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
-    private long id;
+    private Integer id;
 
     @NotNull(message = "Currency change shouldn't be null")
     @Column(name="CURRENCY_CHANGE")

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface ConverterRepository extends JpaRepository<Converter,Long> {
+public interface ConverterRepository extends JpaRepository<Converter,Integer> {
    // public List<Converter> findBycurrencyChange(String currency);
     Optional<Converter> findBycurrencyChange(String currency);
 }
